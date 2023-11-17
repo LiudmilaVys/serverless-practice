@@ -1,0 +1,19 @@
+{
+  "name": "serverless-practice",
+  "version": "1.0.0",
+  "description": "https://github.com/rolling-scopes-school/aws/tree/main/aws-developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiudmilaVys/serverless-practice.git"
+  },
+  "author": "Liudmila Vysotskaya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LiudmilaVys/serverless-practice/issues"
+  },
+  "homepage": "https://github.com/LiudmilaVys/serverless-practice#readme"
+}
