@@ -2,7 +2,8 @@
 
 const AWS = require('aws-sdk');
 const dynamo = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = 'product';
+const TABLE_NAME_PRODUCT = 'product';
+const TABLE_NAME_STOCK = 'stock';
 
 const scan = async () => {
   const response = await dynamo.scan({
@@ -12,9 +13,9 @@ const scan = async () => {
   return response.Items;
 };
 
-const query = async (id) => {
+const query = async (id, tableName) => {
   const response = await dynamo.scan({
-    TableName: TABLE_NAME,
+    TableName: tableName,
     KeyConditionExpression: 'id=:id',
     ExpressionAttributeValues: {':id': id}
   }).promise();
@@ -38,9 +39,14 @@ module.exports.getProductsList = async (event) => {
 
 module.exports.getProductsById = async (event) => {
   const productId = event.pathParameters.productId;
+  const product = await query(productId, TABLE_NAME_PRODUCT);
+  const stock = await query(productId, TABLE_NAME_STOCK);
 
   return {
     ...responseOptions,
-    body: await query(productId),
+    body: {
+      ...product,
+      ...stock,
+    },
   };
 };
