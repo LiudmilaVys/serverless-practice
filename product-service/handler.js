@@ -1,43 +1,26 @@
 'use strict';
 
-const products = [
-  {
-    description: "Short Product Description1",
-    id: "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
-    price: 24,
-    title: "ProductOne",
-  },
-  {
-    description: "Short Product Description7",
-    id: "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
-    price: 15,
-    title: "ProductTitle",
-  },
-  {
-    description: "Short Product Description2",
-    id: "7567ec4b-b10c-48c5-9345-fc73c48a80a3",
-    price: 23,
-    title: "Product",
-  },
-  {
-    description: "Short Product Description4",
-    id: "7567ec4b-b10c-48c5-9345-fc73348a80a1",
-    price: 15,
-    title: "ProductTest",
-  },
-  {
-    description: "Short Product Description1",
-    id: "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
-    price: 23,
-    title: "Product2",
-  },
-  {
-    description: "Short Product Description7",
-    id: "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
-    price: 15,
-    title: "ProductName",
-  },
-];
+const AWS = require('aws-sdk');
+const dynamo = new AWS.DynamoDB.DocumentClient();
+const TABLE_NAME = 'product';
+
+const scan = async () => {
+  const response = await dynamo.scan({
+    TableName: TABLE_NAME
+  }).promise();
+
+  return response.Items;
+};
+
+const query = async (id) => {
+  const response = await dynamo.scan({
+    TableName: TABLE_NAME,
+    KeyConditionExpression: 'id=:id',
+    ExpressionAttributeValues: {':id': id}
+  }).promise();
+
+  return response;
+};
 
 const responseOptions = {
   statusCode: 200,
@@ -49,7 +32,7 @@ const responseOptions = {
 module.exports.getProductsList = async (event) => {
   return {
     ...responseOptions,
-    body: JSON.stringify(products, null, 2),
+    body: await scan(),
   };
 }
 
@@ -58,9 +41,6 @@ module.exports.getProductsById = async (event) => {
 
   return {
     ...responseOptions,
-    body: JSON.stringify(products.find(p => p.id === productId), null, 2),
+    body: await query(productId),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
