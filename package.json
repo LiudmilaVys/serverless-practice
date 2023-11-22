@@ -4,7 +4,7 @@
   "description": "https://github.com/rolling-scopes-school/aws/tree/main/aws-developer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "populateDB": "cd populate-db && node script.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/LiudmilaVys/serverless-practice/issues"
   },
-  "homepage": "https://github.com/LiudmilaVys/serverless-practice#readme"
+  "homepage": "https://github.com/LiudmilaVys/serverless-practice#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.1501.0"
+  }
 }
